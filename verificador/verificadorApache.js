@@ -7,7 +7,7 @@ readApacheLogs = (url, errorType, callback) => {
   .then(res => {
 		const list = [];
 		const lines = res.data.split(/\r?\n/);
-		const regex = new RegExp(`${errorType}*`, "gi");
+		const regex = new RegExp(`${errorType}*`, "g");
     const dateRegEx = new RegExp(":[0-2][0-9]:[0-5][0-9]:[0-5][0-9]");
 		const linkRegEx = new RegExp(/\b((?:[a-z][\w\-]+:(?:\/{1,3}|[a-z0-9%])|www\d{0,3}[.]|[a-z0-9.\-]+[.][a-z]{2,4}\/)(?:[^\s()<>]|\((?:[^\s()<>]|(?:\([^\s()<>]+\)))*\))+(?:\((?:[^\s()<>]|(?:\([^\s()<>]+\)))*\)|[^\s`!()\[\]{};:'".,<>?«»“”‘’]))/i);
 
@@ -29,8 +29,6 @@ readApacheLogs = (url, errorType, callback) => {
   			const found = l.ocorrencia.input.search(/\bhttps:\/\/www+\w*\b.*/);
   			if(found) logs.push({ log: found.input, data: l.date, url: l.url, index: l.index, tipo: errorType });
   		});
-    } else {
-      return "Não foi encontrado nenhum erro no servidor";
     }
 
     return new Promise((res, err) => {
